@@ -56,17 +56,20 @@ class Extractor:
     ) -> dict[str, ExtractedField]:
         log = logger or SILENT
         results: dict[str, ExtractedField] = {}
+        nullable_fields = set(scenario.nullable_fields)
         log.extract_start()
 
         for turn in transcript:
             if turn.intent_key.startswith("__"):
                 continue  # skip meta-turns (transfers, etc.)
 
-            field_type = FIELD_TYPES.get(turn.intent_key, "text")
+            base_key = turn.intent_key.replace("__confirm", "")
+            field_type = FIELD_TYPES.get(base_key, "text")
             extraction: ExtractionResult = self._llm.extract(
                 question=turn.question,
                 answer=turn.answer,
                 field_type=field_type,
+                nullable=base_key in nullable_fields,
             )
 
             # Off-script turns get their confidence halved

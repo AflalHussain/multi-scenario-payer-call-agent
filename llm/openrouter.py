@@ -38,20 +38,22 @@ _REASONING = {"enabled": False}
 
 # ── prompt templates (mirrors stub.py for easy comparison) ───────────────────
 
-EXTRACT_PROMPT = """You are extracting a single structured value from a payer representative's answer.
+EXTRACT_PROMPT = """You are a strict data extraction assistant. Extract a single structured value from the payer representative's answer based on the question asked.
 
 Question asked: {question}
 Representative's answer: {answer}
-Expected field type: {field_type}
+Expected field type: {field_type} {nullable_str}
 
-Rules:
-- Return ONLY a JSON object: {{"value": <extracted value or null>, "confidence": <0.0-1.0>}}
-- If the answer is ambiguous or contradictory, set value to null and confidence below 0.5
-- For "boolean": true/false only
-- For "currency": numeric string like "20"
-- For "integer": numeric string
-- For "text": cleaned prose, no filler words
-- Never invent a value that wasn't stated
+STRICT RULES:
+1. Return ONLY a valid JSON object: {{"value": <extracted_value>, "confidence": <float 0.0-1.0>}}
+2. If the answer is ambiguous, dodges the question, or contains contradictions, set "value" to null and "confidence" below 0.5.
+3. or if answer is valid and a field type is not applicable set "value" to N/A and "confidence" to 0.9.
+4. Type-specific formatting for "value":
+   - "boolean": Use JSON boolean `true` or `false` for the question given (not strings).
+   - "currency": Use a numeric string without currency symbols (e.g., "20" or "20.00" for "twenty dollars" or "$20").
+   - "integer": Use a numeric string (e.g., "30") or N/A if not applicable.
+   - "text": Extract the exact, concise relevant phrase from the answer. Do not paraphrase.
+5. Never invent, infer, or assume a value that was not explicitly stated.
 """
 
 OFF_SCRIPT_PROMPT = """Does this insurance representative answer make sense as a response to this benefits/claims question?
@@ -161,15 +163,16 @@ class OpenRouterLLM(LLMInterface):
 
     # ── public interface ─────────────────────────────────────────────────────
 
-    def extract(self, question: str, answer: str, field_type: str) -> ExtractionResult:
+    def extract(self, question: str, answer: str, field_type: str, nullable: bool = False) -> ExtractionResult:
         """
         Ask the model to extract a typed value from the rep's raw answer.
 
         Uses a two-turn exchange so the model can reason, then commit to a
         final JSON answer — mirroring the pattern in the docstring example.
         """
+        nullable_str = " or N/A" if nullable else ""
         prompt = EXTRACT_PROMPT.format(
-            question=question, answer=answer, field_type=field_type
+            question=question, answer=answer, field_type=field_type, nullable_str=nullable_str
         )
 
         # ── turn 1: let the model reason ──────────────────────────────────

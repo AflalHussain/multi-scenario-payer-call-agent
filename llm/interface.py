@@ -22,7 +22,7 @@ class LLMInterface(ABC):
     """
 
     @abstractmethod
-    def extract(self, question: str, answer: str, field_type: str) -> ExtractionResult:
+    def extract(self, question: str, answer: str, field_type: str, nullable: bool) -> ExtractionResult:
         """
         Given a question and the rep's raw answer, extract a typed value.
 

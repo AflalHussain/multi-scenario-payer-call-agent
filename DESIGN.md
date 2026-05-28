@@ -68,6 +68,7 @@ LLMs are non-deterministic, making them notoriously hard to debug. We split obse
 - **Retry with backoff on unreachable**: currently a single attempt. Production
   would retry with exponential backoff and a configurable max.
 - **Production Observability**: We implemented local audit logging (`llm_calls.log`), but production requires distributed tracing (e.g., OpenTelemetry/LangSmith) for latency/cost tracking, and metrics/alerting (e.g., Datadog) for extraction confidence drops.
+- **Scenario template enhancement: nullable fields**: he scenario schema was extended to support fields that may legitimately return "N/A" in addition to their primary typed value (string, integer, boolean, etc.).
 
 ## Where AI tooling shaped this solution
 
@@ -82,6 +83,8 @@ AI assistance (an agentic coding assistant) was used throughout this project. I 
 **Observability Features:** The `LiveLogger` and the `llm_calls.log` JSONL audit trail were ideas I directed and AI executed. These were deliberate design choices I made to make LLM debugging tractable.
 
 **Debugging & Fixes:** Test failures (e.g., the `StubLLM.is_off_script` signature mismatch after the interface was updated in `openrouter.py`, the `MockPayer` question counter needing to be per-intent rather than global) were diagnosed and fixed with AI assistance after I identified the symptoms from test output.
+
+**
 
 **What remained mine:** The architectural decisions — which steps use an LLM vs. deterministic logic, how the state machine is structured, the choice to use encryption rather than masking for the member ID, the constraint that the result builder can never fabricate a success are all judgments I made and guided. The AI was my implementation pair, not the architect.
 

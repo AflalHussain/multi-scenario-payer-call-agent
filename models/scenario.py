@@ -26,6 +26,7 @@ class ScenarioConfig:
     ivr_path: list[str]
     questions: list[dict[str, str]]   # [{"key": "coverage_active", "text": "Is the policy active?"}]
     required_fields: list[str]
+    nullable_fields: list[str] = field(default_factory=list)  # fields where null IS a valid high-confidence answer
     metadata: dict[str, Any] = field(default_factory=dict)  # spare bag for future use
 
 

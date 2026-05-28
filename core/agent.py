@@ -49,6 +49,7 @@ def _load_scenario(path: str | Path) -> ScenarioConfig:
         ivr_path=raw.get("ivr_path", []),
         questions=raw.get("questions", []),
         required_fields=raw.get("required_fields", []),
+        nullable_fields=raw.get("nullable_fields", []),
         metadata=raw.get("metadata", {}),
     )
 
