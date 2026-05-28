@@ -1,0 +1,15 @@
+scenario: denied_claim
+
+ivr_path: ["2"]   # Press 2 for claims
+
+questions:
+  - key: denial_reason
+    text: "Can you tell me the exact reason this claim was denied?"
+  - key: missing_docs
+    text: "What documentation is required to appeal this denial?"
+  - key: appeal_deadline
+    text: "What is the deadline to submit an appeal?"
+
+required_fields:
+  - denial_reason
+  - missing_docs

@@ -1,0 +1,9 @@
+scenario: benefits_verification
+
+ivr:
+  root: ""
+
+rep_answers: {}
+
+inject:
+  unreachable: true

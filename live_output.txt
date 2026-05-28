@@ -1,0 +1,66 @@
+════════════════════════════════════════════════════════════
+  📞  PAYER CALL AGENT  —  live session
+  scenario : scenarios/benefits_verification.yaml
+  fixture  : fixtures/benefits_clean.yaml
+════════════════════════════════════════════════════════════
+
+[15:04:54] 🔧 STATE → INITIALIZING
+[15:04:54] 📡 STATE → DIALING — scenario=benefits_verification
+[15:04:56] 🎛️  STATE → NAVIGATING_IVR — path=['1']
+[15:04:56] 🤖 IVR  "Press 1 for eligibility, 2 for claims, 3 for authorizations."
+[15:04:56] ☎️  AGENT presses  [ 1 ]
+[15:04:57] 🎵 ON HOLD  Waiting for representative…
+[15:04:58] 💬 STATE → ASKING
+
+────────────────────────────────────────────────────────────
+[15:04:58] 🧑‍💼 AGENT [coverage_active]
+  "Is this member's policy currently active?"
+[15:05:01] 👤 REP
+  "Yeah, that policy is active and in good standing."
+
+────────────────────────────────────────────────────────────
+[15:05:02] 🧑‍💼 AGENT [copay]
+  "What is the copay amount for an office visit?"
+[15:05:05] 👤 REP
+  "The copay for an office visit is twenty dollars."
+
+────────────────────────────────────────────────────────────
+[15:05:06] 🧑‍💼 AGENT [visit_limit]
+  "Is there a visit limit on this plan?"
+[15:05:09] 👤 REP
+  "Hmm, I'm not seeing a visit limit on this plan."
+
+────────────────────────────────────────────────────────────
+[15:05:09] 🧑‍💼 AGENT [prior_auth]
+  "Does this service require a prior authorization?"
+[15:05:12] 👤 REP
+  "That service does require a prior authorization."
+
+[15:05:13] 🔁 CONFIRMATION PASS  Re-asking required fields…
+
+────────────────────────────────────────────────────────────
+[15:05:13] 🧑‍💼 AGENT [coverage_active]
+  "Just to confirm — is this member's policy currently active?"
+[15:05:17] 👤 REP
+  "Yeah, that policy is active and in good standing."
+
+────────────────────────────────────────────────────────────
+[15:05:18] 🧑‍💼 AGENT [copay]
+  "Just to confirm — what is the copay amount for an office visit?"
+[15:05:21] 👤 REP
+  "The copay for an office visit is twenty dollars."
+[15:05:22] 🔍 STATE → EXTRACTING
+
+════════════════════════════════════════════════════════════
+[15:05:22] 🔍 EXTRACTING  structured data from transcript…
+  ✓  coverage_active          'true'                conf ███████░ 0.90
+  ✓  copay                    '20'                  conf ██████░░ 0.75
+  ✗  visit_limit              null                  conf ██░░░░░░ 0.20
+  ✗  prior_auth               null                  conf ██░░░░░░ 0.30
+  ✓  coverage_active__confirm 'Yeah, that policy is active and in good standing.' conf ██████░░ 0.70
+  ✓  copay__confirm           'The copay for an office visit is twenty dollars.' conf ██████░░ 0.70
+
+════════════════════════════════════════════════════════════
+[15:05:25] ✅ RESULT: COMPLETE  overall confidence 0.59
+════════════════════════════════════════════════════════════
+

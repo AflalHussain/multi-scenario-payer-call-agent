@@ -1,0 +1,14 @@
+scenario: benefits_verification
+
+ivr:
+  root: "Press 1 for eligibility, 2 for claims, 3 for authorizations."
+  "1": "Please hold for the next available eligibility representative."
+
+rep_answers:
+  coverage_active: "Yes, the member is active."
+  copay: "Copay is $20."
+  visit_limit: "No visit limit."
+  prior_auth: "Prior auth required."
+
+inject:
+  drop_after_question: 2   # call drops after the second question is answered

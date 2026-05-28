@@ -1,0 +1,13 @@
+scenario: denied_claim
+
+ivr:
+  root: "Press 1 for eligibility, 2 for claims, 3 for authorizations."
+  "2": "Please hold for the next available claims representative."
+
+rep_answers:
+  denial_reason: "That claim was denied due to missing documentation."
+  missing_docs: "You'll need to submit an itemized bill and the referring physician's notes."
+  appeal_deadline: "You have 60 days from the denial date to appeal."
+
+inject:
+  transfer_on: reason   # rep transfers when asked about the denial reason

@@ -1,0 +1,16 @@
+scenario: benefits_verification
+
+ivr:
+  root: "Press 1 for eligibility, 2 for claims, 3 for authorizations."
+  "1": "Please hold for the next available eligibility representative."
+
+rep_answers:
+  coverage_active: "Yes, coverage is active."
+  copay: "The copay is $20."
+  visit_limit: "There's a 20-visit annual limit."
+  prior_auth: "No prior auth needed."
+
+inject:
+  contradict:
+    field: copay
+    second_answer: "Actually wait, I'm looking at this again — it's $40."

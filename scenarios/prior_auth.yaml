@@ -1,0 +1,14 @@
+scenario: prior_auth
+
+ivr_path: ["3"]   # Press 3 for authorizations
+
+questions:
+  - key: auth_status
+    text: "What is the current status of this prior authorization request?"
+  - key: auth_missing
+    text: "Is there any missing clinical information holding up the review?"
+  - key: auth_decision_eta
+    text: "When can we expect a decision?"
+
+required_fields:
+  - auth_status

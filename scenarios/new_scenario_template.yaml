@@ -1,0 +1,15 @@
+# Template: copy this file and fill in your new scenario.
+# No code changes required — the agent core reads this at runtime.
+
+scenario: your_scenario_name
+
+ivr_path: ["1"]   # DTMF digits to reach the right department
+
+questions:
+  - key: your_first_question_key
+    text: "Ask the rep something specific."
+  - key: your_second_question_key
+    text: "Ask the rep something else."
+
+required_fields:
+  - your_first_question_key   # result is BLOCKED if this can't be extracted

@@ -1,0 +1,17 @@
+scenario: benefits_verification
+
+ivr_path: ["1"]   # Press 1 for eligibility
+
+questions:
+  - key: coverage_active
+    text: "Is this member's policy currently active?"
+  - key: copay
+    text: "What is the copay amount for an office visit?"
+  - key: visit_limit
+    text: "Is there a visit limit on this plan?"
+  - key: prior_auth
+    text: "Does this service require a prior authorization?"
+
+required_fields:
+  - coverage_active
+  - copay

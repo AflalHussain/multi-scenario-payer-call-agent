@@ -1,0 +1,13 @@
+scenario: benefits_verification
+
+ivr:
+  root: "Press 1 for eligibility, 2 for claims, 3 for authorizations."
+  "1": "Please hold for the next available eligibility representative."
+
+rep_answers:
+  coverage_active: "Our system is down right now, I cannot help with that."
+  copay: "I don't understand what you're asking."
+  visit_limit: "You'll need to call back tomorrow."
+  prior_auth: "I cannot help with that question."
+
+inject: {}
