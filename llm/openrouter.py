@@ -47,13 +47,12 @@ Expected field type: {field_type} {nullable_str}
 STRICT RULES:
 1. Return ONLY a valid JSON object: {{"value": <extracted_value>, "confidence": <float 0.0-1.0>}}
 2. If the answer is ambiguous, dodges the question, or contains contradictions, set "value" to null and "confidence" below 0.5.
-3. or if answer is valid and a field type is not applicable set "value" to N/A and "confidence" to 0.9.
-4. Type-specific formatting for "value":
+3. Type-specific formatting for "value":
    - "boolean": Use JSON boolean `true` or `false` for the question given (not strings).
    - "currency": Use a numeric string without currency symbols (e.g., "20" or "20.00" for "twenty dollars" or "$20").
-   - "integer": Use a numeric string (e.g., "30") or N/A if not applicable.
+   - "integer": Use a numeric string (e.g., "30") or "N/A" if there is no limit.
    - "text": Extract the exact, concise relevant phrase from the answer. Do not paraphrase.
-5. Never invent, infer, or assume a value that was not explicitly stated.
+4. Never invent, infer, or assume a value that was not explicitly stated.
 """
 
 OFF_SCRIPT_PROMPT = """Does this insurance representative answer make sense as a response to this benefits/claims question?
